@@ -1,28 +1,44 @@
 <div class="container-fluid">
 	<div class="row">
-		<h1 class="col-xs-6 col-sm-12 col-md-12 col-lg-12">
-			Memory Game | 
-			<small>Score: {{clicks}} 
+		<h1 class="col-sm-12 col-md-12 col-lg-12 hidden-xs">
+			Memory Game
+			<small>| Score:&nbsp;{{clicks}} 
 				<span ng-show="bestScore">
-					| Best Score: {{bestScore}} 
-					<button class="btn btn-primary" ng-click="setBestScore(null)">Clear</button>
+					| Best&nbsp;Score:&nbsp;{{bestScore}} 
+					<button class="btn btn-primary" ng-click="setBestScore(null)">Clear Best Score</button>
+				</span>
+			</small>
+		</h1>
+		<h1 class="col-xs-12 hidden-sm hidden-md hidden-lg">
+			Memory Game<br>
+			<small>Score:&nbsp;{{clicks}}<br>
+				<span ng-show="bestScore">
+					Best&nbsp;Score:&nbsp;{{bestScore}} 
+					<button class="btn btn-primary" ng-click="setBestScore(null)">
+						Clear Best Score</button>
 				</span>
 			</small>
 		</h1>
 	</div>
 	<div class="row">
-		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 flip-container"
-			ng-repeat="card in cards track by $index">
-			<div ng-click="pickCard(card)"
-				ng-style="{cursor: card.show ? default : pointer}"
-				ng-class="{card: !card.matched, 'card-no-click': card.matched || card.show}">
-				<div ng-hide="card.show || card.matched" class="card-back"></div>
-				<div ng-show="card.show && !card.matched" class="card-front">{{card.value}}</div>
-				<div ng-show="card.matched" class="card-check">&#10003</div>
+		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"
+			ng-repeat="card in cards track by $index"
+			ng-click="pickCard(card)">
+			<div class="flip-container" ng-class="{flip: card.show}">
+				<div ng-style="{cursor: card.show ? default : pointer}"
+					ng-class="{card: !card.matched, 'card-no-click': card.matched || card.show}">
+
+					<div ng-hide="card.matched" class="card-back"></div>
+					<div ng-hide="card.matched" class="card-front">{{card.value}}</div>
+
+					<div ng-show="card.matched" class="card-check">&#10003</div>
+
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{(timer*timerDelay) | date:"mm:ss.sss"}}</div>
+	</div>
 </div>
-<div class="card card-no-click" style="display:none;"></div>
-
-<!-- card = flipper, card-back = back, card-front = front -->
+<div class="card card-no-click flip-container flip no-opacity" ng-if="false"><div class="card"></div></div>

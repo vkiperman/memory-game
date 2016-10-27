@@ -1,114 +1,102 @@
-$card-height: 120px;
+$card-height: 120px
 
-@mixin card-attrs($height){
- 	border-radius: 10px; 
- 	height: $height;
- 	line-height: $height;
- 	text-align: center;
- 	font-size: 60px;
- 	width: 100%;
-}
-@mixin no-select($which) {
-	-webkit-touch-callout: $which;
-	-webkit-user-select: $which;
-	-khtml-user-select: $which;
-	-moz-user-select: $which;
-	-ms-user-select: $which;
-	user-select: $which;
-}
+=card-attrs($height)
+ 	border-radius: 10px
+ 	height: $height
+ 	line-height: $height
+ 	text-align: center
+ 	font-size: 60px
+ 	width: 100%
 
-@mixin card-border{
- 	border: 1px solid #658e69;
- 	border-right-color: #143518;
- 	border-bottom-color: #143518;
-}
+@mixin no-select($which) 
+	-webkit-touch-callout: $which
+	-webkit-user-select: $which
+	-khtml-user-select: $which
+	-moz-user-select: $which
+	-ms-user-select: $which
+	user-select: $which
 
-body{
-	background: #2d6633;
-}
+@mixin card-border
+ 	:border 1px solid #658e69
+ 	border-right-color: #143518
+ 	border-bottom-color: #143518
 
-h1, h1 small{color:#FFF;}
+body
+	background: #2d6633
 
-.card{
- 	@include card-attrs($card-height);
- 	@include no-select(none);
- 	cursor: pointer;
- 	margin-bottom: 15px;
+h1,
+h1 small
+	color: #FFF
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.55)
 
- 	transition: box-shadow .3s, 
- 				background .3s;
-}
+.no-opacity
+	opacity: 0
 
-.card:hover{
- 	@include card-attrs($card-height);
-	box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.55);
+.card
+ 	@include card-attrs($card-height)
+ 	@include no-select(none)
+ 	cursor: pointer
+ 	margin-bottom: 15px
+ 	transition: box-shadow .3s, background .3s
 
-	.card-front, .card-back{
- 		border-right-color: #555;
- 		border-bottom-color: #555;
- 	}
-}
+.card:hover
+	box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.55)
+	@include card-attrs($card-height)
+	.card-front, .card-back
+ 		border-right-color: #555
+ 		border-bottom-color: #555
+ 	
+.card-front
+ 	@include card-attrs($card-height)
+ 	@include no-select(none)
+ 	@include card-border
+ 	background-color: #FFF
+ 	transition: opacity 1s
 
-.card-front{
- 	@include card-attrs($card-height );
- 	@include no-select(none);
- 	@include card-border;
- 	background-color: #FFF;
- }
+.card-back
+ 	@include card-attrs($card-height )
+ 	@include card-border
+ 	background: url(../images/guaranteed-arrow.jpeg) 50% 50% no-repeat #FFF
+ 	background-size: 110px
+ 	transition: background-size 0.6s
 
-.card-back{
- 	@include card-attrs($card-height );
- 	@include card-border;
- 	background: url(../images/chess-players.jpg) 50% top;
- 	background-size: 100%;
-}
+@media (min-width:768px)
+	.card-back
+ 		background: url(../images/guaranteed-logo.png) 50% 50% no-repeat #FFF
+	 	background-size: 90%
 
-.card-check{
- 	@include card-attrs($card-height);
- 	color: #4aa553;
- 	cursor: default;
- 	border: 3px solid #214925;
-}
+.card-check
+ 	@include card-attrs($card-height)
+ 	color: #4aa553
+ 	cursor: default
+ 	border: 3px solid #214925
 
-.card-no-click{
- 	@include no-select(none);
- 	/*border: 1px solid transparent;*/
- 	margin-bottom: 15px;
-}
+.card-no-click
+ 	@include no-select(none)
+ 	margin-bottom: 15px
 
+.flip-container
+	perspective: 1000px
+	&.flip
+		.card
+			transform: rotateY(180deg)
+			&:hover
+				box-shadow: -3px 4px 5px 0px rgba(0,0,0,0.55)
 
+.card
+	transition: 0.6s
+	transform-style: preserve-3d
+	position: relative
 
+.card-front,.card-back
+	backface-visibility: hidden
+	position: absolute
+	top: 0
+	left: 0
 
-/*
-.flip-container {
-	perspective: 1000px;
-}
-.flip-container:hover .card, .flip-container.hover .card {
-	transform: rotateY(180deg);
-}
+.card-front
+	z-index: 2
+	transform: rotateY(180deg)
 
-
-.card {
-	transition: 0.6s;
-	transform-style: preserve-3d;
-
-	position: relative;
-}
-
-.card-front, .card-back {
-	backface-visibility: hidden;
-
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-.card-front {
-	z-index: 2;
-	transform: rotateY(180deg);
-}
-
-.card-back {
-	transform: rotateY(0deg);
-}
-*/
+.card-back
+	transform: rotateY(0deg)

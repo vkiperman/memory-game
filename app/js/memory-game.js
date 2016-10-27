@@ -9,7 +9,6 @@
 
 		function reset(){
 			turnedCards = [];
-			//$scope.freezePlay = false;
 		}
 		function checkMatch(){
 			return turnedCards[0].value === turnedCards[1].value;
@@ -26,7 +25,7 @@
 			card.show = false;
 		}
 		function markAsMatched(card){
-			unTurn(card);
+			//unTurn(card);
 			card.matched = true;
 		}
 		function shuffle(){
@@ -42,16 +41,19 @@
 		}
 		function gameOver(){
 			$scope.start = false;
+			$scope.timerStarted = false;
 			++$scope.gamesPLayed;
+
 			$scope.clearCards();
 			$scope.setBestScore($scope.clicks);
 			$scope.resetCards();
+
 			$scope.clicks = 0;
 			$scope.totalMatch = 0;
+
 			shuffle();
 			$scope.dealCards(0);
 		}
-		//$scope.freezePlay = false;
 		$scope.LOCAL_STORAGE = 'memory-game-local-storage';
 		$scope.bestScore = false;
 		$scope.start = false;
@@ -90,7 +92,6 @@
 			$scope.bestScore = localStorage.getItem($scope.LOCAL_STORAGE);
 		}
 		$scope.setBestScore = function setBestScore(score){
-			console.log(score === null);
 			var fromStorage = localStorage.getItem($scope.LOCAL_STORAGE);
 			if(score === null){
 				localStorage.removeItem($scope.LOCAL_STORAGE);
@@ -103,8 +104,24 @@
 			}
 		}
 
+		$scope.timer = 0;
+		$scope.timerDelay = 1000/32;
+		$scope.timerStarted = false;
+		$scope.keepTime = function keepTime(n){
+			if(!$scope.timerStarted) return;
+			if(n===0)$scope.timer = n;
+			$timeout(function(){
+				$scope.timer++;
+				$scope.keepTime();
+			}, $scope.timerDelay);
+		}
+
 		$scope.pickCard = function(card){
 			if(!$scope.start) return;
+			if(!$scope.timerStarted){
+				$scope.timerStarted = true;
+				$scope.keepTime(0);
+			}
 
 			if(card.matched || card.show) return;
 			++$scope.clicks;

@@ -14,20 +14,20 @@
 		runSequence = require('run-sequence'),
 		uncss 		= require('gulp-uncss'),
 		sourcemaps	= require('gulp-sourcemaps'),
-		//browserify 	= require('browserify'),
 		source 		= require('vinyl-source-stream'),
 		glob 		= require('glob');
 	// A few CONSTANTS...
 	const SCSS_SRC 	= 'app/scss/**/*.scss',
 		HTML_SRC 	= 'app/**/*.html',
 		JS_SRC		= 'app/js/**/*.js',
-		IMG_SRC  	= 'app/images/**/*.+(png|jpg|gif|svg)',
+		IMG_SRC  	= 'app/images/**/*.+(png|jpg|jpeg|gif|svg)',
 		FONTS_SRC 	= 'app/fonts/**/*',
 		DIST		= 'dist';
 
 	var sassOpts = {
 		includePaths: 	['./node_modules/bootstrap-sass/assets/stylesheets'],
-		outputStyle: 	'compressed'
+		outputStyle: 	'compressed',
+		indentedSyntax: true
 	};
 
 	gulp.task('sass', function(){
@@ -56,7 +56,6 @@
 	});
 
 	gulp.task('useref', function(){
-		console.log(new Date());
 		return gulp.src(HTML_SRC)
 			.pipe(useref())
 			.pipe(gulpIf('*.js', uglify()))
@@ -90,16 +89,16 @@
 	});
 
 	gulp.task('default', function (callback) {
-		runSequence(['sass', 'browserSync', 'watch'], callback);
+		runSequence(['sass', 'useref', 'browserSync', 'watch'], callback);
 	});
 
 	/* ======= WATCH ======= */ 
 	gulp.task('watch', ['sass', 'browserSync', 'useref', 'images', 'fonts'], function(){
-		gulp.watch(SCSS_SRC, 			['sass', browserSync.reload]);
+		gulp.watch(SCSS_SRC, 			['sass']);
 		gulp.watch('app/css/**/*.css', 	['useref', browserSync.reload]);
-		//gulp.watch(IMG_SRC, 			['images', browserSync.reload]);
+		gulp.watch(IMG_SRC, 			['images', browserSync.reload]);
 		//gulp.watch(FONTS_SRC, 			['fonts', browserSync.reload]);
-		//gulp.watch(HTML_SRC, 			['useref', 'sass', browserSync.reload]);
+		gulp.watch(HTML_SRC, 			['useref', 'sass']);
 		gulp.watch(JS_SRC,				['useref', browserSync.reload]);
 	});
 

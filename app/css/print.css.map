@@ -1,1 +1,1 @@
-{"version":3,"file":"print.css","sources":["print.scss"],"sourcesContent":[".testing2{ \n\twidth: percentage(5/7);\n}\n\n.testing3{ \n\twidth: percentage(5/7);\n}"],"mappings":"AAAA,AAAA,SAAS,AAAA,CACR,KAAK,CAAE,SAAU,CACjB,AAED,AAAA,SAAS,AAAA,CACR,KAAK,CAAE,SAAU,CACjB","names":[]}
+{"version":3,"file":"print.css","sources":["print.scss"],"sourcesContent":[".testing2 {\n\twidth: percentage(5/7); }\n\n\n.testing3 {\n\twidth: percentage(5/7); }\n"],"mappings":"AAAA,AAAA,SAAS,AAAC,CACT,KAAK,CAAE,SAAU,CAAQ,AAG1B,AAAA,SAAS,AAAC,CACT,KAAK,CAAE,SAAU,CAAQ","names":[]}
