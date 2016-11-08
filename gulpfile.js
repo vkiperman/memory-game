@@ -15,7 +15,8 @@
 		uncss 		= require('gulp-uncss'),
 		sourcemaps	= require('gulp-sourcemaps'),
 		source 		= require('vinyl-source-stream'),
-		glob 		= require('glob');
+		glob 		= require('glob')
+		sprity		= require('sprity');
 	// A few CONSTANTS...
 	const SCSS_SRC 	= 'app/scss/**/*.scss',
 		HTML_SRC 	= 'app/**/*.html',
@@ -74,7 +75,19 @@
 	gulp.task('fonts', function() {
 		return gulp.src(FONTS_SRC)
 			.pipe(gulp.dest('dist/fonts'));
-	})
+	});
+
+	gulp.task('sprite', function(){
+		return sprity.src({
+			src: 	IMG_SRC,
+			out: 	'app/images/sprites',
+			dimensions: [{
+				ratio: 1, dpi: 72
+			}, {
+				ratio: 2, dpi: 192
+			}], 
+		});
+	});
 	
 	gulp.task('clean:dist', function() {
 		return del.sync(DIST);
@@ -89,17 +102,18 @@
 	});
 
 	gulp.task('default', function (callback) {
-		runSequence(['sass', 'useref', 'browserSync', 'watch'], callback);
+		runSequence(['sass', 'browserSync', 'watch'], callback);
 	});
 
 	/* ======= WATCH ======= */ 
 	gulp.task('watch', ['sass', 'browserSync', 'useref', 'images', 'fonts'], function(){
-		gulp.watch(SCSS_SRC, 			['sass']);
-		gulp.watch('app/css/**/*.css', 	['useref', browserSync.reload]);
-		gulp.watch(IMG_SRC, 			['images', browserSync.reload]);
+		//gulp.watch(SCSS_SRC, 			['sass']);
+		//gulp.watch('app/css/**/*.css', 	browserSync.reload);
+		//gulp.watch(IMG_SRC, 			browserSync.reload);
 		//gulp.watch(FONTS_SRC, 			['fonts', browserSync.reload]);
-		gulp.watch(HTML_SRC, 			['useref', 'sass']);
-		gulp.watch(JS_SRC,				['useref', browserSync.reload]);
+		//gulp.watch(HTML_SRC, 			browserSync.reload);
+		//gulp.watch(JS_SRC,				browserSync.reload);
+		gulp.watch('app/**/*',			['useref', browserSync.reload]);
 	});
 
 })();

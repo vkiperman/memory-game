@@ -25,18 +25,22 @@
 			card.show = false;
 		}
 		function markAsMatched(card){
-			//unTurn(card);
 			card.matched = true;
 		}
 		function shuffle(){
 			$scope._cards.sort(function(a, b){ 
-				var random = Math.round((Math.random() * 2) - 1) || 1;
-				return random;
+				return Math.round((Math.random() * 2) - 1) || 1;
 			});
 		}
 		function checkGameStatus(){
-			if($scope.totalMatch === $scope.cards.length/2){
-				gameOver();
+			var totalMatch = $scope.cards.length/2;
+			if($scope.totalMatch === totalMatch - 1){
+				$scope.cards.forEach($scope.pickCard);
+				return;
+			}
+			if($scope.totalMatch === totalMatch){
+				$timeout(gameOver, 800);
+				
 			}
 		}
 		function gameOver(){
@@ -140,7 +144,6 @@
 
 			turnedCards.push(card);
 			card.show = true;
-
 			if(turnedCards.length === 2){
 				if(checkMatch()){
 					++$scope.totalMatch;
